@@ -18,11 +18,15 @@ def callback(ch, method, properties, body):
 
     data = json.loads(body)['signals']
     url = data.pop('image_url', None)
-    if not url:
-        url = f'http://ec2-52-200-189-81.compute-1.amazonaws.com:8000/signals/media/attachments/2020/10/18/nophoto.jpg'
+    if url:
+        response = requests.get(url)
+        uri = "data:" + response.headers['Content-Type'] + ";" + "base64," + str(base64.b64encode(response.content).decode("utf-8"))
+    else:
+        with open("nophoto.jpg", "rb") as img_file:
+            sub_uri = base64.b64encode(img_file.read())
+        
+        uri = "data:image/jpeg;base64," + str(sub_uri.decode("utf-8"))
 
-    response = requests.get(url)
-    uri = "data:" + response.headers['Content-Type'] + ";" + "base64," + str(base64.b64encode(response.content).decode("utf-8"))
     data["issue_image"] = [uri]
     # print(data)
 
