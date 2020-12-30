@@ -11,8 +11,7 @@ def callback(ch, method, properties, body):
 
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
-channel.queue_declare(queue='SEDA-MB', durable=True)
-channel.basic_consume(queue='SEDA-MB', on_message_callback=callback, auto_ack=Tr$
+channel.basic_consume(queue='seda-mb', on_message_callback=callback, auto_ack=True)
 
 
 print('[*] Waiting for messages. To exit press CTRL+C')

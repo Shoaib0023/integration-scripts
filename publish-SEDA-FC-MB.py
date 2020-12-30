@@ -251,8 +251,8 @@ def connect_rabbitmq_MB(data):
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
-    channel.queue_declare(queue='SEDA-MB', durable=True)
-    channel.basic_publish(exchange='SEDA-MB-exchange', routing_key='insecure', body=json.dumps(data, indent=4, sort_keys=True, default=str))
+    channel.queue_declare(queue='seda-mb', durable=True)
+    channel.basic_publish(exchange='seda-mb-exchange', routing_key='hello', body=json.dumps(data, indent=4, sort_keys=True, default=str))
 
     print("Data is successfully published to MB queue !!")
     connection.close()
